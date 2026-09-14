@@ -138,3 +138,17 @@ document.addEventListener('keydown', function(e) {
         showPage('home');
     }
 });
+const photos = document.querySelectorAll('.photo');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+
+  photos.forEach(p => {
+    p.addEventListener('click', () => {
+      lightboxImg.src = p.querySelector('img').src;
+      lightbox.classList.add('show');
+    });
+  });
+
+  lightbox.addEventListener('click', () => {
+    lightbox.classList.remove('show');
+  });

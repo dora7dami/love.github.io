@@ -308,7 +308,7 @@
     animation: photoFloat 6s ease-in-out infinite;
   }
   .photo-showcase img {
-    position: absolute;
+   position: absolute;
     width: 400px;
     height: 300px;
     border-radius: 12px;
@@ -323,16 +323,17 @@
   }
   .photo-showcase img:nth-child(1) {
     transform: rotate(-3deg) translateZ(0);
-    z-index: 2;
+    animation: photoSwitch 8s ease-in-out infinite;
+    animation-delay: 0s;
   }
   .photo-showcase img:nth-child(2) {
     transform: rotate(3deg) translateZ(-20px);
-    opacity: 0.7;
+    animation: photoSwitch 8s ease-in-out infinite;
+    animation-delay: -4s;
   }
-
-  @keyframes photoFloat {
-    0%,100% { transform: translateY(0) rotateX(2deg); }
-    50% { transform: translateY(-8px) rotateX(-2deg); }
+  @keyframes photoSwitch {
+    0%, 45% { opacity: 1; z-index: 2; }
+    50%, 100% { opacity: 0; z-index: 1; }
   }
 
   /* 点击后的专属文字 */

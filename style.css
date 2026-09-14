@@ -288,3 +288,91 @@ body {
         align-items: center;
     }
 }
+ .stage {
+    width: 320px;
+    height: 320px;
+    perspective: 1200px;
+  }
+
+  .ring {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotate 18s linear infinite;
+  }
+
+  .ring:hover {
+    animation-play-state: paused;
+  }
+
+  .photo {
+    position: absolute;
+    width: 200px;
+    height: 140px;
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    margin-top: -70px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.6);
+    cursor: pointer;
+    transition: transform .4s ease, box-shadow .4s ease;
+    border: 2px solid rgba(255,255,255,.15);
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 5 张图均匀分布在圆环上 */
+  .photo:nth-child(1) { transform: rotateY(0deg)   translateZ(320px); }
+  .photo:nth-child(2) { transform: rotateY(72deg)  translateZ(320px); }
+  .photo:nth-child(3) { transform: rotateY(144deg) translateZ(320px); }
+  .photo:nth-child(4) { transform: rotateY(216deg) translateZ(320px); }
+  .photo:nth-child(5) { transform: rotateY(288deg) translateZ(320px); }
+
+  @keyframes rotate {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(360deg); }
+  }
+
+  /* 大图弹窗 */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.8);
+    animation: pop .35s ease;
+  }
+
+  .lightbox.show {
+    display: flex;
+  }
+
+  @keyframes pop {
+    from { transform: scale(.8); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .hint {
+    position: fixed;
+    bottom: 24px;
+    color: rgba(255,255,255,.5);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }

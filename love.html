@@ -231,16 +231,6 @@
   }
 
   /* ===== 照片 ===== */
-  .photo-showcase {
-    position: relative;
-    width: 300px;
-    height: 200px;
-    margin: 0 auto 32px;
-    perspective: 900px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s ease, transform 1s ease;
-  }
   .photo-showcase.show {
     opacity: 1;
     transform: translateY(0);
@@ -254,16 +244,17 @@
   }
   .photo-showcase img {
     position: absolute;
-    width: 240px;
-    height: 160px;
+    width: 300px;
+    height: 220px;
     border-radius: 12px;
-    object-fit: cover;
+    object-fit: contain;
+    background: rgba(0,0,0,.25);
     box-shadow: 0 15px 40px rgba(0,0,0,.5), 0 0 20px rgba(200,168,255,.2);
     border: 2px solid rgba(255,255,255,.15);
     left: 50%;
     top: 50%;
-    margin-left: -120px;
-    margin-top: -80px;
+    margin-left: -150px;
+    margin-top: -110px;
     animation: photoSwitch 8s infinite;
   }
   .photo-showcase img:nth-child(1) {

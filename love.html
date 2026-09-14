@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,11 +11,107 @@
     min-height: 100vh;
     background: radial-gradient(ellipse at 50% 20%, #1a1040, #0a0a1a 60%, #050510);
     font-family: "PingFang SC", "Microsoft YaHei", "Noto Serif SC", serif;
-    overflow-x: hidden;
+    overflow: hidden;
     color: rgba(255,255,255,.9);
   }
 
-  /* 星点背景 */
+  /* ===== 封面 ===== */
+  .cover {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: radial-gradient(ellipse at center, #1a1040, #050510);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity .8s ease, visibility .8s ease;
+  }
+  .cover.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .cover-envelope {
+    width: 220px;
+    height: 150px;
+    position: relative;
+    margin-bottom: 32px;
+  }
+  .envelope-body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #c8a8ff, #ff9ecd);
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(200,168,255,.3);
+  }
+  .envelope-flap {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-bottom: 65px solid #b48cff;
+    transform-origin: bottom center;
+    transition: transform .6s ease .3s;
+  }
+  .cover.opened .envelope-flap {
+    transform: rotateX(180deg);
+  }
+  .cover-heart {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    animation: heartBeat 1.5s ease-in-out infinite;
+  }
+  @keyframes heartBeat {
+    0%,100% { transform: translate(-50%,-50%) scale(1); }
+    50% { transform: translate(-50%,-50%) scale(1.15); }
+  }
+  .cover-btn {
+    padding: 14px 44px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ff6ec4, #9b59b6);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 30px rgba(255,110,196,.4);
+    transition: transform .3s ease, box-shadow .3s ease;
+    animation: btnPulse 2s ease-in-out infinite;
+  }
+  .cover-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 12px 40px rgba(255,110,196,.6);
+  }
+  @keyframes btnPulse {
+    0%,100% { box-shadow: 0 8px 30px rgba(255,110,196,.4); }
+    50% { box-shadow: 0 8px 50px rgba(255,110,196,.7); }
+  }
+  .cover-hint {
+    margin-top: 16px;
+    color: rgba(255,255,255,.4);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== 主内容 ===== */
+  .main-content {
+    opacity: 0;
+    transition: opacity 1.2s ease 0.4s;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .main-content.show { opacity: 1; }
+
+  /* 星点 */
   .stars {
     position: fixed;
     inset: 0;
@@ -60,28 +155,39 @@
     50% { filter: brightness(1.3); }
   }
 
-  /* 信纸 */
+  /* ===== 信纸段落 ===== */
   .letter {
-    background: rgba(255,255,255,.06);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 20px;
-    padding: 36px 28px;
-    text-align: left;
-    line-height: 2.1;
-    font-size: 15.5px;
-    color: rgba(255,255,255,.88);
     margin-bottom: 40px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.1);
-    animation: letterIn 1.2s ease-out;
   }
-  @keyframes letterIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+  .para {
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    text-align: left;
+    line-height: 2.2;
+    font-size: 15px;
+    color: rgba(255,255,255,.85);
+    box-shadow: 0 8px 32px rgba(0,0,0,.3);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s ease, transform .8s ease;
   }
-  .letter p { margin-bottom: 12px; }
+  .para.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .para p { margin-bottom: 4px; }
+  .para p:last-child { margin-bottom: 0; }
 
-  /* 照片轮播 */
+  .para:nth-child(1) { border-left: 3px solid rgba(255,158,205,.6); }
+  .para:nth-child(2) { border-left: 3px solid rgba(200,168,255,.6); }
+  .para:nth-child(3) { border-left: 3px solid rgba(158,220,255,.6); }
+  .para:nth-child(4) { border-left: 3px solid rgba(255,180,180,.6); }
+
+  /* 照片 */
   .photo-showcase {
     position: relative;
     width: 300px;
@@ -106,16 +212,15 @@
     border: 2px solid rgba(255,255,255,.15);
     left: 50%;
     top: 50%;
-    transform-origin: center;
+    margin-left: -120px;
+    margin-top: -80px;
     animation: photoSwitch 8s infinite;
   }
   .photo-showcase img:nth-child(1) {
-    margin-left: -120px; margin-top: -80px;
     transform: rotate(-4deg) translateZ(0);
     animation-delay: 0s;
   }
   .photo-showcase img:nth-child(2) {
-    margin-left: -120px; margin-top: -80px;
     transform: rotate(3deg) translateZ(-20px);
     animation-delay: -4s;
     opacity: 0;
@@ -129,7 +234,7 @@
     50% { transform: translateY(-8px) rotateX(-2deg); }
   }
 
-  /* 按钮区 */
+  /* 按钮 */
   .proposal {
     margin-top: 20px;
   }
@@ -177,7 +282,6 @@
     box-shadow: 0 12px 40px rgba(167,139,250,.6);
   }
 
-  /* 点击后效果 */
   .response {
     margin-top: 28px;
     font-size: 18px;
@@ -190,7 +294,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* 花瓣飘落 */
+  /* 花瓣 */
   .petals {
     position: fixed;
     inset: 0;
@@ -212,71 +316,135 @@
     to { transform: translateY(110vh) rotate(720deg); }
   }
 
+  /* ===== 音乐控制按钮 ===== */
+  .music-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: all .3s ease;
+    font-size: 20px;
+  }
+  .music-toggle:hover {
+    background: rgba(255,255,255,.2);
+    transform: scale(1.1);
+  }
+  .music-toggle.playing {
+    animation: musicSpin 4s linear infinite;
+  }
+  @keyframes musicSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .music-toggle.muted {
+    opacity: .5;
+  }
+
   @media (max-width: 480px) {
     .title { font-size: 20px; }
-    .letter { font-size: 14px; padding: 24px 18px; }
+    .para { font-size: 14px; padding: 18px 16px; }
     .photo-showcase { width: 260px; height: 180px; }
-    .photo-showcase img { width: 200px; height: 140px; }
+    .photo-showcase img { width: 200px; height: 140px; margin-left: -100px; margin-top: -70px; }
     .btn { padding: 12px 28px; font-size: 15px; }
+    .music-toggle { width: 38px; height: 38px; font-size: 17px; bottom: 16px; right: 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- 星点 -->
+<!-- ===== 音频 ===== -->
+<audio id="bgm" loop preload="auto">
+  <source src="./bgm.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===== 封面 ===== -->
+<div class="cover" id="cover">
+  <div class="cover-envelope">
+    <div class="envelope-flap"></div>
+    <div class="envelope-body">
+      <div class="cover-heart">💌</div>
+    </div>
+  </div>
+  <button class="cover-btn" id="openBtn">点击打开这封信</button>
+  <div class="cover-hint">写给你的 · 只给你看的</div>
+</div>
+
+<!-- ===== 星点 ===== -->
 <div class="stars" id="stars"></div>
 
-<!-- 花瓣 -->
+<!-- ===== 花瓣 ===== -->
 <div class="petals" id="petals"></div>
 
-<div class="container">
-  <!-- 标题 -->
-  <h1 class="title">与你的每一次见面都是礼物 ✨</h1>
+<!-- ===== 主内容 ===== -->
+<div class="main-content" id="mainContent">
+  <div class="container">
+    <h1 class="title">与你的每一次见面都是礼物 ✨</h1>
 
-  <!-- 信纸 -->
-  <div class="letter">
-    <p>我亲爱的秃头</p>
-    <p>每每望向你的瞬间 我总朝着你笑</p>
-    <p>若你问我为何 其实心里想的很简单</p>
-    <p>我只愿你能一直这样笑下去</p>
-    <p>希望咱俩就这样一直一直平淡的好下去</p>
-    <p>我会在见不到你的日子里希望你越过越好</p>
-    <p>你在遇到不开心的时候能第一个想到我</p>
-    <p>一起努力一起越变越好</p>
-    <p>见不到面的时候好好生活 无聊的时候可以出来小聚</p>
-    <p>不求做你心里最好最优秀的朋友</p>
-    <p>但求是你最长最久的朋友</p>
-    <p>我会永远珍惜感恩咱俩的友情</p>
-    <p>我想你明媚 不要流眼泪</p>
-    <p>也不要再为蠢事后悔皱眉</p>
-    <p>每当朋友说我是个很好的人时</p>
-    <p>我都在想 其实不是我好 而是你好</p>
-    <p>每次痛苦与疲惫时 你都会给我最好的回应</p>
-    <p>认真听我说话 就像我寂寞里的雨季</p>
-    <p>谢谢你愿意为我产生羁绊</p>
-  </div>
-
-  <!-- 照片 -->
-  <div class="photo-showcase">
-    <div class="frame">
-      <img src="./new3.jpg" alt="回忆">
-      <img src="./new2.jpg" alt="美好时光">
+    <div class="letter">
+      <div class="para" data-delay="0">
+        <p>我亲爱的秃头</p>
+        <p>每每望向你的瞬间 我总朝着你笑</p>
+        <p>若你问我为何 其实心里想的很简单</p>
+        <p>我只愿你能一直这样笑下去</p>
+      </div>
+      <div class="para" data-delay="200">
+        <p>希望咱俩就这样一直一直平淡的好下去</p>
+        <p>我会在见不到你的日子里希望你越过越好</p>
+        <p>你在遇到不开心的时候能第一个想到我</p>
+        <p>一起努力一起越变越好</p>
+      </div>
+      <div class="para" data-delay="400">
+        <p>见不到面的时候好好生活 无聊的时候可以出来小聚</p>
+        <p>不求做你心里最好最优秀的朋友</p>
+        <p>但求是你最长最久的朋友</p>
+        <p>我会永远珍惜感恩咱俩的友情</p>
+      </div>
+      <div class="para" data-delay="600">
+        <p>我想你明媚 不要流眼泪</p>
+        <p>也不要再为蠢事后悔皱眉</p>
+        <p>每当朋友说我是个很好的人时</p>
+        <p>我都在想 其实不是我好 而是你好</p>
+        <p>每次痛苦与疲惫时 你都会给我最好的回应</p>
+        <p>认真听我说话 就像我寂寞里的雨季</p>
+        <p>谢谢你愿意为我产生羁绊</p>
+      </div>
     </div>
-  </div>
 
-  <!-- 表白按钮 -->
-  <div class="proposal">
-    <h2>愿意和我一辈子好吗？💕</h2>
-    <div class="btn-group">
-      <button class="btn btn-yes" onclick="answer('愿意')">愿意</button>
-      <button class="btn btn-very-yes" onclick="answer('非常愿意')">非常愿意</button>
+    <!-- 照片 -->
+    <div class="photo-showcase">
+      <div class="frame">
+        <img src="./xie.jpg" alt="回忆">
+        <img src="./xie1.jpg" alt="美好时光">
+      </div>
     </div>
-    <div class="response" id="response"></div>
+
+    <!-- 表白 -->
+    <div class="proposal">
+      <h2>愿意和我一辈子好吗？💕</h2>
+      <div class="btn-group">
+        <button class="btn btn-yes" onclick="answer('愿意')">愿意</button>
+        <button class="btn btn-very-yes" onclick="answer('非常愿意')">非常愿意</button>
+      </div>
+      <div class="response" id="response"></div>
+    </div>
   </div>
 </div>
 
+<!-- ===== 音乐控制按钮 ===== -->
+<div class="music-toggle playing" id="musicToggle">🎵</div>
+
 <script>
-  // 星点生成
+  // ===== 星点 =====
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 60; i++) {
     const s = document.createElement('span');
@@ -288,7 +456,7 @@
     starsEl.appendChild(s);
   }
 
-  // 花瓣生成
+  // ===== 花瓣 =====
   const petalsEl = document.getElementById('petals');
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('span');
@@ -299,7 +467,49 @@
     petalsEl.appendChild(p);
   }
 
-  // 按钮逻辑
+  // ===== 音乐 =====
+  const audio = document.getElementById('bgm');
+  const musicToggle = document.getElementById('musicToggle');
+  let musicStarted = false;
+
+  // 点击封面按钮 → 打开信 + 播放音乐
+  const openBtn = document.getElementById('openBtn');
+  const cover = document.getElementById('cover');
+  const mainContent = document.getElementById('mainContent');
+
+  openBtn.addEventListener('click', () => {
+    // 播放音乐
+    audio.volume = 0.35;
+    audio.play().then(() => {
+      musicStarted = true;
+    }).catch(err => {
+      console.log('音乐播放被阻止:', err);
+    });
+
+    cover.classList.add('opened');
+    setTimeout(() => {
+      cover.classList.add('hidden');
+      mainContent.classList.add('show');
+      document.querySelectorAll('.para').forEach((p, i) => {
+        setTimeout(() => p.classList.add('show'), i * 500 + 200);
+      });
+    }, 600);
+  });
+
+  // 右下角音乐按钮 → 暂停/继续
+  musicToggle.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      musicToggle.classList.add('playing');
+      musicToggle.classList.remove('muted');
+    } else {
+      audio.pause();
+      musicToggle.classList.remove('playing');
+      musicToggle.classList.add('muted');
+    }
+  });
+
+  // ===== 表白按钮 =====
   function answer(choice) {
     const res = document.getElementById('response');
     const replies = {
@@ -310,8 +520,6 @@
     res.style.animation = 'none';
     res.offsetHeight;
     res.style.animation = 'fadeIn .6s ease';
-
-    // 花瓣加速
     petalsEl.querySelectorAll('span').forEach(p => {
       p.style.animationDuration = '3s';
     });

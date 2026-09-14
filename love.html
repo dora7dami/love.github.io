@@ -575,7 +575,7 @@
   });
 
   // 表白按钮 → 显示照片+文字
-  let answered = false;
+let answered = false;
   function answer(choice) {
     if (answered) return;
     answered = true;
@@ -605,11 +605,16 @@
 
     // 显示照片区域
     photoSection.style.display = 'block';
-    // 强制重排后加 show 触发动画
     photoSection.offsetHeight;
-    setTimeout(() => {
-      photoSection.classList.add('show');
-    }, 100);
+    photoSection.classList.add('show');
+
+    // 重新触发图片切换动画
+    const imgs = photoSection.querySelectorAll('img');
+    imgs.forEach(img => {
+      img.style.animation = 'none';
+      img.offsetHeight;
+      img.style.animation = '';
+    });
 
     // 滚到照片位置
     setTimeout(() => {

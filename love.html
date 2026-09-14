@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>与你的每一次见面都是礼物</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,7 +11,7 @@
     min-height: 100vh;
     background: radial-gradient(ellipse at 50% 20%, #1a1040, #0a0a1a 60%, #050510);
     font-family: "PingFang SC", "Microsoft YaHei", "Noto Serif SC", serif;
-    overflow: hidden;
+    overflow-x: hidden;
     color: rgba(255,255,255,.9);
   }
 
@@ -106,8 +106,8 @@
     opacity: 0;
     transition: opacity 1.2s ease 0.4s;
     min-height: 100vh;
-    overflow-y: auto;
     overflow-x: hidden;
+    padding-bottom: 60px;
   }
   .main-content.show { opacity: 1; }
 
@@ -134,8 +134,7 @@
     z-index: 1;
     max-width: 680px;
     margin: 0 auto;
-    padding: 40px 24px 120px;
-    text-align: center;
+    padding: 40px 24px 40px;
   }
 
   /* 标题 */
@@ -146,9 +145,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 36px;
+    margin-bottom: 28px;
     letter-spacing: 2px;
     animation: titleGlow 3s ease-in-out infinite;
+    text-align: center;
   }
   @keyframes titleGlow {
     0%,100% { filter: brightness(1); }
@@ -157,29 +157,29 @@
 
   /* ===== 信纸段落 ===== */
   .letter {
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
   .para {
     background: rgba(255,255,255,.05);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,.1);
-    border-radius: 16px;
-    padding: 22px 24px;
-    margin-bottom: 16px;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
     text-align: left;
-    line-height: 2.2;
-    font-size: 15px;
+    line-height: 2;
+    font-size: 14.5px;
     color: rgba(255,255,255,.85);
-    box-shadow: 0 8px 32px rgba(0,0,0,.3);
+    box-shadow: 0 6px 24px rgba(0,0,0,.3);
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
     transition: opacity .8s ease, transform .8s ease;
   }
   .para.show {
     opacity: 1;
     transform: translateY(0);
   }
-  .para p { margin-bottom: 4px; }
+  .para p { margin-bottom: 2px; }
   .para p:last-child { margin-bottom: 0; }
 
   .para:nth-child(1) { border-left: 3px solid rgba(255,158,205,.6); }
@@ -187,13 +187,41 @@
   .para:nth-child(3) { border-left: 3px solid rgba(158,220,255,.6); }
   .para:nth-child(4) { border-left: 3px solid rgba(255,180,180,.6); }
 
-  /* 照片 */
+  /* ===== 向下引导箭头 ===== */
+  .scroll-hint {
+    text-align: center;
+    margin: 8px 0 20px;
+    opacity: 0;
+    transition: opacity 1s ease 2.5s;
+    color: rgba(255,255,255,.35);
+    font-size: 12px;
+  }
+  .scroll-hint.show { opacity: 1; }
+  .scroll-hint .arrow {
+    display: block;
+    font-size: 22px;
+    animation: bounceDown 2s ease-in-out infinite;
+    margin-top: 4px;
+  }
+  @keyframes bounceDown {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ===== 照片 ===== */
   .photo-showcase {
     position: relative;
     width: 300px;
     height: 200px;
-    margin: 0 auto 44px;
+    margin: 0 auto 32px;
     perspective: 900px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .photo-showcase.show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .photo-showcase .frame {
     width: 100%;
@@ -234,13 +262,21 @@
     50% { transform: translateY(-8px) rotateX(-2deg); }
   }
 
-  /* 按钮 */
+  /* ===== 按钮 ===== */
   .proposal {
-    margin-top: 20px;
+    margin-top: 8px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .proposal.show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .proposal h2 {
     font-size: 22px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     background: linear-gradient(135deg, #ffb3d9, #c4a7ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -249,14 +285,14 @@
   }
   .btn-group {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     justify-content: center;
     flex-wrap: wrap;
   }
   .btn {
-    padding: 14px 40px;
+    padding: 13px 36px;
     border-radius: 50px;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     border: none;
@@ -283,9 +319,9 @@
   }
 
   .response {
-    margin-top: 28px;
-    font-size: 18px;
-    min-height: 40px;
+    margin-top: 24px;
+    font-size: 17px;
+    min-height: 36px;
     color: #ffb3d9;
     animation: fadeIn .6s ease;
   }
@@ -316,13 +352,13 @@
     to { transform: translateY(110vh) rotate(720deg); }
   }
 
-  /* ===== 音乐控制按钮 ===== */
+  /* 音乐按钮 */
   .music-toggle {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 44px;
-    height: 44px;
+    bottom: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     background: rgba(255,255,255,.1);
     backdrop-filter: blur(10px);
@@ -333,7 +369,7 @@
     cursor: pointer;
     z-index: 100;
     transition: all .3s ease;
-    font-size: 20px;
+    font-size: 19px;
   }
   .music-toggle:hover {
     background: rgba(255,255,255,.2);
@@ -351,23 +387,23 @@
   }
 
   @media (max-width: 480px) {
-    .title { font-size: 20px; }
-    .para { font-size: 14px; padding: 18px 16px; }
+    .title { font-size: 19px; margin-bottom: 22px; }
+    .para { font-size: 13.5px; padding: 15px 16px; line-height: 1.9; margin-bottom: 10px; }
     .photo-showcase { width: 260px; height: 180px; }
     .photo-showcase img { width: 200px; height: 140px; margin-left: -100px; margin-top: -70px; }
     .btn { padding: 12px 28px; font-size: 15px; }
-    .music-toggle { width: 38px; height: 38px; font-size: 17px; bottom: 16px; right: 16px; }
+    .proposal h2 { font-size: 19px; }
+    .music-toggle { width: 36px; height: 36px; font-size: 16px; bottom: 14px; right: 14px; }
+    .container { padding: 28px 16px 40px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ===== 音频 ===== -->
 <audio id="bgm" loop preload="auto">
   <source src="./M500001bdYk41BCfRi.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ===== 封面 ===== -->
 <div class="cover" id="cover">
   <div class="cover-envelope">
     <div class="envelope-flap"></div>
@@ -375,17 +411,13 @@
       <div class="cover-heart">💌</div>
     </div>
   </div>
-  <button class="cover-btn" id="openBtn">亲爱的秃头,快点击打开这封信</button>
+  <button class="cover-btn" id="openBtn">亲爱的秃头，点击打开这封信</button>
   <div class="cover-hint">写给你的 · 只给你看的</div>
 </div>
 
-<!-- ===== 星点 ===== -->
 <div class="stars" id="stars"></div>
-
-<!-- ===== 花瓣 ===== -->
 <div class="petals" id="petals"></div>
 
-<!-- ===== 主内容 ===== -->
 <div class="main-content" id="mainContent">
   <div class="container">
     <h1 class="title">与你的每一次见面都是礼物 ✨</h1>
@@ -420,8 +452,14 @@
       </div>
     </div>
 
+    <!-- 向下引导 -->
+    <div class="scroll-hint" id="scrollHint">
+      往下看
+      <span class="arrow">↓</span>
+    </div>
+
     <!-- 照片 -->
-    <div class="photo-showcase">
+    <div class="photo-showcase" id="photoSection">
       <div class="frame">
         <img src="./xie.jpg" alt="回忆">
         <img src="./xie1.jpg" alt="美好时光">
@@ -429,7 +467,7 @@
     </div>
 
     <!-- 表白 -->
-    <div class="proposal">
+    <div class="proposal" id="proposalSection">
       <h2>愿意和我一辈子好吗？💕</h2>
       <div class="btn-group">
         <button class="btn btn-yes" onclick="answer('愿意')">愿意</button>
@@ -440,11 +478,10 @@
   </div>
 </div>
 
-<!-- ===== 音乐控制按钮 ===== -->
 <div class="music-toggle playing" id="musicToggle">🎵</div>
 
 <script>
-  // ===== 星点 =====
+  // 星点
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 60; i++) {
     const s = document.createElement('span');
@@ -456,7 +493,7 @@
     starsEl.appendChild(s);
   }
 
-  // ===== 花瓣 =====
+  // 花瓣
   const petalsEl = document.getElementById('petals');
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('span');
@@ -467,36 +504,48 @@
     petalsEl.appendChild(p);
   }
 
-  // ===== 音乐 =====
+  // 音乐
   const audio = document.getElementById('bgm');
   const musicToggle = document.getElementById('musicToggle');
-  let musicStarted = false;
 
-  // 点击封面按钮 → 打开信 + 播放音乐
+  // 封面打开
   const openBtn = document.getElementById('openBtn');
   const cover = document.getElementById('cover');
   const mainContent = document.getElementById('mainContent');
 
   openBtn.addEventListener('click', () => {
-    // 播放音乐
     audio.volume = 0.35;
-    audio.play().then(() => {
-      musicStarted = true;
-    }).catch(err => {
-      console.log('音乐播放被阻止:', err);
-    });
+    audio.play().then(() => {}).catch(() => {});
 
     cover.classList.add('opened');
     setTimeout(() => {
       cover.classList.add('hidden');
       mainContent.classList.add('show');
+
+      // 段落依次出现
       document.querySelectorAll('.para').forEach((p, i) => {
-        setTimeout(() => p.classList.add('show'), i * 500 + 200);
+        setTimeout(() => p.classList.add('show'), i * 400 + 200);
       });
+
+      // 向下引导
+      setTimeout(() => {
+        document.getElementById('scrollHint').classList.add('show');
+      }, 2400);
+
+      // 照片区域滚动到时淡入
+      setTimeout(() => {
+        document.getElementById('photoSection').classList.add('show');
+      }, 3200);
+
+      // 按钮区域
+      setTimeout(() => {
+        document.getElementById('proposalSection').classList.add('show');
+      }, 4000);
+
     }, 600);
   });
 
-  // 右下角音乐按钮 → 暂停/继续
+  // 音乐按钮
   musicToggle.addEventListener('click', () => {
     if (audio.paused) {
       audio.play();
@@ -509,7 +558,7 @@
     }
   });
 
-  // ===== 表白按钮 =====
+  // 表白按钮
   function answer(choice) {
     const res = document.getElementById('response');
     const replies = {

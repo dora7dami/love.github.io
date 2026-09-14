@@ -107,6 +107,7 @@
     transition: opacity 1.2s ease 0.4s;
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: auto;
     padding-bottom: 60px;
   }
   .main-content.show { opacity: 1; }
@@ -174,9 +175,8 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity .8s ease, transform .8s ease;
-   position: relative;
+    position: relative;
   }
- 
   .para.show {
     opacity: 1;
     transform: translateY(0);
@@ -188,7 +188,9 @@
   .para:nth-child(2) { border-left: 3px solid rgba(200,168,255,.6); }
   .para:nth-child(3) { border-left: 3px solid rgba(158,220,255,.6); }
   .para:nth-child(4) { border-left: 3px solid rgba(255,180,180,.6); }
- .para::after {
+
+  /* 段落右侧下拉箭头 */
+  .para::after {
     content: '';
     position: absolute;
     right: 16px;
@@ -209,79 +211,9 @@
     50% { opacity: .7; transform: rotate(45deg) translateY(4px); }
   }
 
-  /* ===== 向下引导箭头 ===== */
-  .scroll-hint {
-    text-align: center;
-    margin:30px 0 20px;
-    opacity: 0;
-    transition: opacity 1s ease 2.5s;
-    color: rgba(255,255,255,.35);
-    font-size: 12px;
-  }
-  .scroll-hint.show { opacity: 1; }
-  .scroll-hint .arrow {
-    display: block;
-    font-size: 22px;
-    animation: bounceDown 2s ease-in-out infinite;
-    margin-top: 4px;
-  }
-  @keyframes bounceDown {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(8px); }
-  }
-
-  /* ===== 照片 ===== */
-  .photo-showcase.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .photo-showcase .frame {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: photoFloat 6s ease-in-out infinite;
-  }
-  .photo-showcase img {
-    position: absolute;
-    width: 400px;
-    height: 300px;
-    border-radius: 12px;
-    object-fit: contain;
-    background: rgba(0,0,0,.25);
-    box-shadow: 0 15px 40px rgba(0,0,0,.5), 0 0 20px rgba(200,168,255,.2);
-    border: 2px solid rgba(255,255,255,.15);
-    left: 50%;
-    top: 50%;
-    margin-top: -150px;
-   margin-left: -200px;
-    animation: photoSwitch 8s infinite;
-  }
- /* @media (max-width: 480px) {
-    .photo-showcase { width: 320px; height: 240px; }
-    .photo-showcase img { width: 280px; height: 200px; margin-left: -140px; margin-top: -100px; }
-  } */
-  .photo-showcase img:nth-child(1) {
-    transform: rotate(-4deg) translateZ(0);
-    animation-delay: 0s;
-  }
-  .photo-showcase img:nth-child(2) {
-    transform: rotate(3deg) translateZ(-20px);
-    animation-delay: -4s;
-    opacity: 0;
-  }
-  @keyframes photoSwitch {
-    0%, 40% { opacity: 1; z-index: 2; }
-    50%, 100% { opacity: 0; z-index: 1; }
-  }
-  @keyframes photoFloat {
-    0%,100% { transform: translateY(0) rotateX(2deg); }
-    50% { transform: translateY(-8px) rotateX(-2deg); }
-  }
-
   /* ===== 按钮 ===== */
   .proposal {
-    margin-top: 15px;
+    margin-top: 8px;
     text-align: center;
     opacity: 0;
     transform: translateY(20px);
@@ -336,7 +268,7 @@
   }
 
   .response {
-    margin-top: 24px;
+    margin-top: 20px;
     font-size: 17px;
     min-height: 36px;
     color: #ffb3d9;
@@ -346,6 +278,83 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* ===== 照片（点击后显示） ===== */
+  .photo-section {
+    display: none;
+    margin-top: 32px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .photo-section.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .photo-showcase {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    margin: 0 auto 20px;
+    perspective: 900px;
+  }
+  .photo-showcase .frame {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: photoFloat 6s ease-in-out infinite;
+  }
+  .photo-showcase img {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: rgba(0,0,0,.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,.5), 0 0 20px rgba(200,168,255,.2);
+    border: 2px solid rgba(255,255,255,.15);
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -150px;
+  }
+  .photo-showcase img:nth-child(1) {
+    transform: rotate(-3deg) translateZ(0);
+    z-index: 2;
+  }
+  .photo-showcase img:nth-child(2) {
+    transform: rotate(3deg) translateZ(-20px);
+    opacity: 0.7;
+  }
+
+  @keyframes photoFloat {
+    0%,100% { transform: translateY(0) rotateX(2deg); }
+    50% { transform: translateY(-8px) rotateX(-2deg); }
+  }
+
+  /* 点击后的专属文字 */
+  .after-text {
+    margin-top: 20px;
+    padding: 18px 22px;
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    line-height: 2;
+    font-size: 14.5px;
+    color: rgba(255,255,255,.85);
+    box-shadow: 0 6px 24px rgba(0,0,0,.3);
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .after-text p { margin-bottom: 2px; }
+  .after-text p:last-child { margin-bottom: 0; }
+  .after-text.yes-text { border-left: 3px solid rgba(255,158,205,.6); }
+  .after-text.very-yes-text { border-left: 3px solid rgba(200,168,255,.6); }
 
   /* 花瓣 */
   .petals {
@@ -406,12 +415,13 @@
   @media (max-width: 480px) {
     .title { font-size: 19px; margin-bottom: 22px; }
     .para { font-size: 13.5px; padding: 15px 16px; line-height: 1.9; margin-bottom: 10px; }
-    .photo-showcase { width: 260px; height: 180px; }
-    .photo-showcase img { width: 200px; height: 140px; margin-left: -100px; margin-top: -70px; }
+    .photo-showcase { width: 320px; height: 240px; }
+    .photo-showcase img { width: 320px; height: 240px; margin-left: -160px; margin-top: -120px; }
     .btn { padding: 12px 28px; font-size: 15px; }
     .proposal h2 { font-size: 19px; }
     .music-toggle { width: 36px; height: 36px; font-size: 16px; bottom: 14px; right: 14px; }
     .container { padding: 28px 16px 40px; }
+    .after-text { font-size: 13.5px; padding: 15px 16px; }
   }
 </style>
 </head>
@@ -469,21 +479,7 @@
       </div>
     </div>
 
-    <!-- 向下引导 -->
-    <div class="scroll-hint" id="scrollHint">
-      往下看
-      <span class="arrow">↓</span>
-    </div>
-
-    <!-- 照片 -->
-    <div class="photo-showcase" id="photoSection">
-      <div class="frame">
-        <img src="./xie.jpg" alt="回忆">
-        <img src="./xie1.jpg" alt="美好时光">
-      </div>
-    </div>
-
-    <!-- 表白 -->
+    <!-- 表白按钮 -->
     <div class="proposal" id="proposalSection">
       <h2>愿意和我一辈子好吗？💕</h2>
       <div class="btn-group">
@@ -492,6 +488,18 @@
       </div>
       <div class="response" id="response"></div>
     </div>
+
+    <!-- 点击后显示的照片+文字 -->
+    <div class="photo-section" id="photoSection">
+      <div class="photo-showcase" id="photoShowcase">
+        <div class="frame">
+          <img src="./xie.jpg" alt="回忆" id="photo1">
+          <img src="./xie1.jpg" alt="美好时光" id="photo2">
+        </div>
+      </div>
+      <div class="after-text" id="afterText"></div>
+    </div>
+
   </div>
 </div>
 
@@ -544,20 +552,10 @@
         setTimeout(() => p.classList.add('show'), i * 400 + 200);
       });
 
-      // 向下引导
-      setTimeout(() => {
-        document.getElementById('scrollHint').classList.add('show');
-      }, 2400);
-
-      // 照片区域滚动到时淡入
-      setTimeout(() => {
-        document.getElementById('photoSection').classList.add('show');
-      }, 3200);
-
       // 按钮区域
       setTimeout(() => {
         document.getElementById('proposalSection').classList.add('show');
-      }, 4000);
+      }, 2600);
 
     }, 600);
   });
@@ -575,20 +573,47 @@
     }
   });
 
-  // 表白按钮
+  // 表白按钮 → 显示照片+文字
+  let answered = false;
   function answer(choice) {
+    if (answered) return;
+    answered = true;
+
     const res = document.getElementById('response');
-    const replies = {
-      '愿意': '🥹 你说愿意 我就敢赖你一辈子',
-      '非常愿意': '😭 非常愿意是吧 那这辈子你跑不掉了'
-    };
-    res.textContent = replies[choice];
+    const photoSection = document.getElementById('photoSection');
+    const afterText = document.getElementById('afterText');
+
+    if (choice === '愿意') {
+      res.textContent = '🥹 你说愿意 我就敢赖你一辈子';
+      afterText.className = 'after-text yes-text';
+      afterText.innerHTML = '<p>从你点下这个按钮开始</p><p>这辈子我就赖定你了</p><p>不许反悔 不许跑 不许消失</p><p>我会一直在 🤍</p>';
+    } else {
+      res.textContent = '😭 非常愿意是吧 那这辈子你跑不掉了';
+      afterText.className = 'after-text very-yes-text';
+      afterText.innerHTML = '<p>非常愿意！你说了算！</p><p>那就这么定了——</p><p>下辈子 下下辈子 都归我</p><p>你跑不掉了 哈哈哈哈 💜</p>';
+    }
+
     res.style.animation = 'none';
     res.offsetHeight;
     res.style.animation = 'fadeIn .6s ease';
+
+    // 花瓣加速
     petalsEl.querySelectorAll('span').forEach(p => {
       p.style.animationDuration = '3s';
     });
+
+    // 显示照片区域
+    photoSection.style.display = 'block';
+    // 强制重排后加 show 触发动画
+    photoSection.offsetHeight;
+    setTimeout(() => {
+      photoSection.classList.add('show');
+    }, 100);
+
+    // 滚到照片位置
+    setTimeout(() => {
+      photoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 600);
   }
 </script>
 

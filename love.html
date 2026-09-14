@@ -174,7 +174,9 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity .8s ease, transform .8s ease;
+   position: relative;
   }
+ 
   .para.show {
     opacity: 1;
     transform: translateY(0);
@@ -186,6 +188,26 @@
   .para:nth-child(2) { border-left: 3px solid rgba(200,168,255,.6); }
   .para:nth-child(3) { border-left: 3px solid rgba(158,220,255,.6); }
   .para:nth-child(4) { border-left: 3px solid rgba(255,180,180,.6); }
+ .para::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid rgba(255,255,255,.3);
+    border-bottom: 2px solid rgba(255,255,255,.3);
+    transform: rotate(45deg);
+    animation: paraArrowPulse 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .para:last-child::after {
+    display: none;
+  }
+  @keyframes paraArrowPulse {
+    0%,100% { opacity: .2; transform: rotate(45deg) translateY(0); }
+    50% { opacity: .7; transform: rotate(45deg) translateY(4px); }
+  }
 
   /* ===== 向下引导箭头 ===== */
   .scroll-hint {
